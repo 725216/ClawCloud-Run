@@ -4,17 +4,20 @@ on:
     - cron: '0 0 1 * *'
   #手动清理
   workflow_dispatch:
+
+permissions: write-all
+
 jobs:
   del_runs:
     runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: read
     steps:
-      - name: Delete workflow runs
-        uses: Mattraks/delete-workflow-runs@v2
-        with:
-          token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          retain_days: 30
-          keep_minimum_runs: 6
+      - name: Checkout Projects
+        uses: actions/checkout@main
+
+      - name: Cache Clean
+        run: gh cache delete --all
+          delete_releases: true
+          releases_keep_latest: 0
+          delete_tags: true
+          delete_workflows: true
+          workflows_keep_day: 0
