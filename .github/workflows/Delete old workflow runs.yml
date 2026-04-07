@@ -2,6 +2,8 @@ name: Delete old workflow runs
 on:
   schedule:
     - cron: '0 0 1 * *'
+  #手动清理
+  workflow_dispatch:
 jobs:
   del_runs:
     runs-on: ubuntu-latest
